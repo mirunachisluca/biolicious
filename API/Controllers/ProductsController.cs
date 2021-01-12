@@ -1,0 +1,69 @@
+﻿using AutoMapper;
+using Core.DTOs;
+using Core.Entities;
+using Core.Interfaces;
+using Core.Specifications;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+
+namespace API.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class ProductsController : ControllerBase
+    {
+        private readonly IProductService _productService;
+        private readonly IMapper _mapper;
+
+        public ProductsController(IProductService productService, IMapper mapper)
+        {
+            _productService = productService;
+            _mapper = mapper;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IReadOnlyList<ProductDTO>>> GetProducts([FromQuery] ProductSpecificationParams parameters)
+        {
+            var products = await _productService.GetProductsAsync(parameters);
+
+            return Ok(products);
+        }
+
+        [HttpGet("{id}")]
+        [ActionName(nameof(GetProduct))]
+        public async Task<ActionResult<ProductDTO>> GetProduct(int id)
+        {
+            var product = await _productService.GetByIdAsync(id);
+            return Ok(product);
+        }
+
+        [HttpPost("new")]
+        public async Task<ActionResult<ProductDTO>> Insert(Product product)
+        {
+            await _productService.InsertAsync(product);
+
+            var productToReturn = _mapper.Map<ProductDTO>(product);
+            return CreatedAtAction(nameof(GetProduct), new { id = productToReturn.Id }, productToReturn);
+        }
+
+        [HttpPost("delete/{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await _productService.DeleteAsync(id);
+
+            return Accepted();
+        }
+
+        [HttpPost("update")]
+        public async Task<ActionResult> Update(Product product)
+        {
+            await _productService.UpdateAsync(product);
+
+            return NoContent();
+        }
+    }
+}
