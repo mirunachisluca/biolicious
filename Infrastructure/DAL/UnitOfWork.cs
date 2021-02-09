@@ -14,7 +14,8 @@ namespace Infrastructure.DAL
         private readonly StoreContext _context;
         private IGenericRepository<Product> _productRepository;
         private IGenericRepository<ProductBrand> _productBrandRepository;
-        private IGenericRepository<ProductType> _productTypeRepository;
+        private IGenericRepository<ProductCategory> _productCategoryRepository;
+        private IGenericRepository<ProductSubcategory> _productSubcategoryRepository;
         private IGenericRepository<Recipe> _recipeRepository;
         private IGenericRepository<RecipeIngredient> _recipeIngredientRepository;
         private IGenericRepository<RecipeStep> _recipeStepRepository;
@@ -60,19 +61,35 @@ namespace Infrastructure.DAL
             }
         }
 
-        public IGenericRepository<ProductType> ProductTypeRepository
+        public IGenericRepository<ProductCategory> ProductCategoryRepository
         {
             get
             {
-                if (_productTypeRepository == null)
+                if (_productCategoryRepository == null)
                 {
-                    _productTypeRepository = new GenericRepository<ProductType>(_context);
+                    _productCategoryRepository = new GenericRepository<ProductCategory>(_context);
                 }
-                return _productTypeRepository;
+                return _productCategoryRepository;
             }
             set
             {
-                _productTypeRepository = value;
+                _productCategoryRepository = value;
+            }
+        }
+
+        public IGenericRepository<ProductSubcategory> ProductSubcategoryRepository
+        {
+            get
+            {
+                if (_productSubcategoryRepository == null)
+                {
+                    _productSubcategoryRepository = new GenericRepository<ProductSubcategory>(_context);
+                }
+                return _productSubcategoryRepository;
+            }
+            set
+            {
+                _productSubcategoryRepository = value;
             }
         }
 

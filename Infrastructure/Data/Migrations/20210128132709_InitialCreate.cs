@@ -37,7 +37,7 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductTypes",
+                name: "ProductCategories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -46,7 +46,7 @@ namespace Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductTypes", x => x.Id);
+                    table.PrimaryKey("PK_ProductCategories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -54,7 +54,8 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -62,34 +63,21 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "ProductSubcategories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Desciption = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<double>(type: "float", nullable: false),
-                    Discount = table.Column<int>(type: "int", nullable: false),
-                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductBrandId = table.Column<int>(type: "int", nullable: false),
-                    ProductTypeId = table.Column<int>(type: "int", nullable: false),
-                    NewEntry = table.Column<bool>(type: "bit", nullable: false),
-                    Stock = table.Column<int>(type: "int", nullable: false)
+                    ProductTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_ProductSubcategories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_ProductBrands_ProductBrandId",
-                        column: x => x.ProductBrandId,
-                        principalTable: "ProductBrands",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Products_ProductTypes_ProductTypeId",
+                        name: "FK_ProductSubcategories_ProductCategories_ProductTypeId",
                         column: x => x.ProductTypeId,
-                        principalTable: "ProductTypes",
+                        principalTable: "ProductCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -119,6 +107,46 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Desciption = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    Discount = table.Column<int>(type: "int", nullable: false),
+                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductBrandId = table.Column<int>(type: "int", nullable: false),
+                    ProductCategoryId = table.Column<int>(type: "int", nullable: false),
+                    ProductSubcategoryId = table.Column<int>(type: "int", nullable: true),
+                    NewEntry = table.Column<bool>(type: "bit", nullable: false),
+                    Stock = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_ProductBrands_ProductBrandId",
+                        column: x => x.ProductBrandId,
+                        principalTable: "ProductBrands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Products_ProductCategories_ProductCategoryId",
+                        column: x => x.ProductCategoryId,
+                        principalTable: "ProductCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Products_ProductSubcategories_ProductSubcategoryId",
+                        column: x => x.ProductSubcategoryId,
+                        principalTable: "ProductSubcategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Diets",
                 columns: table => new
                 {
@@ -137,6 +165,26 @@ namespace Infrastructure.Data.Migrations
                         principalTable: "Recipes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RecipeSteps",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Step = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RecipeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RecipeSteps", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RecipeSteps_Recipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "Recipes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,26 +215,6 @@ namespace Infrastructure.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "RecipeSteps",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Step = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RecipeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RecipeSteps", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RecipeSteps_Recipes_RecipeId",
-                        column: x => x.RecipeId,
-                        principalTable: "Recipes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Diets_RecipeId",
                 table: "Diets",
@@ -198,8 +226,18 @@ namespace Infrastructure.Data.Migrations
                 column: "ProductBrandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_ProductTypeId",
+                name: "IX_Products_ProductCategoryId",
                 table: "Products",
+                column: "ProductCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_ProductSubcategoryId",
+                table: "Products",
+                column: "ProductSubcategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductSubcategories_ProductTypeId",
+                table: "ProductSubcategories",
                 column: "ProductTypeId");
 
             migrationBuilder.CreateIndex(
@@ -247,10 +285,13 @@ namespace Infrastructure.Data.Migrations
                 name: "ProductBrands");
 
             migrationBuilder.DropTable(
-                name: "ProductTypes");
+                name: "ProductSubcategories");
 
             migrationBuilder.DropTable(
                 name: "RecipeCategories");
+
+            migrationBuilder.DropTable(
+                name: "ProductCategories");
         }
     }
 }

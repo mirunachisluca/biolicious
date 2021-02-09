@@ -38,15 +38,20 @@ namespace API.Controllers
         public async Task<ActionResult<ProductDTO>> GetProduct(int id)
         {
             var product = await _productService.GetByIdAsync(id);
-            return Ok(product);
+
+            if (product == null)
+                return NotFound();
+            else
+                return Ok(product);
         }
 
-        [HttpPost("new")]
+        [HttpPost("add")]
         public async Task<ActionResult<ProductDTO>> Insert(Product product)
         {
             await _productService.InsertAsync(product);
 
             var productToReturn = _mapper.Map<ProductDTO>(product);
+
             return CreatedAtAction(nameof(GetProduct), new { id = productToReturn.Id }, productToReturn);
         }
 

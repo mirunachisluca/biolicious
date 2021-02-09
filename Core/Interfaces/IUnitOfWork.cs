@@ -11,7 +11,8 @@ namespace Core.Interfaces
     {
         IGenericRepository<Product> ProductRepository { get; set; }
         IGenericRepository<ProductBrand> ProductBrandRepository { get; set; }
-        IGenericRepository<ProductType> ProductTypeRepository { get; set; }
+        IGenericRepository<ProductCategory> ProductCategoryRepository { get; set; }
+        IGenericRepository<ProductSubcategory> ProductSubcategoryRepository { get; set; }
         IGenericRepository<Recipe> RecipeRepository { get; set; }
         IGenericRepository<RecipeIngredient> RecipeIngredientRepository { get; set; }
         IGenericRepository<RecipeStep> RecipeStepRepository { get; set; }

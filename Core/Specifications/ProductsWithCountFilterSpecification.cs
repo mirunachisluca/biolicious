@@ -14,7 +14,7 @@ namespace Core.Specifications
             : base(x =>
                 (string.IsNullOrEmpty(parameters.Search) || x.Name.ToLower().Contains(parameters.Search)) &&
                 (!parameters.BrandId.HasValue || x.ProductBrandId == parameters.BrandId) &&
-                (!parameters.TypeId.HasValue || x.ProductTypeId == parameters.TypeId))
+                (!parameters.CategoryId.HasValue || x.ProductCategoryId == parameters.CategoryId))
         {
         }
     }

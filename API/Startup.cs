@@ -47,6 +47,12 @@ namespace API
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IProductBrandService, ProductBrandService>();
+            services.AddScoped<IProductCategoryService, ProductCategoryService>();
+            services.AddScoped<IRecipeService, RecipeService>();
+            services.AddScoped<IDietService, DietService>();
+            services.AddScoped<IRecipeCategoryService, RecipeCategoryService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

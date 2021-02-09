@@ -19,7 +19,7 @@ namespace Core.Specifications
         }
 
         public int? BrandId { get; set; }
-        public int? TypeId { get; set; }
+        public int? CategoryId { get; set; }
         public string Sort { get; set; }
 
         private string _search;

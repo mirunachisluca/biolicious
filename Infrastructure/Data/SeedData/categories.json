@@ -1,0 +1,105 @@
+[
+  {
+    "Name": "Fruits"
+  },
+  {
+    "Name": "Vegetables"
+  },
+  {
+    "Name": "Salads"
+  },
+  {
+    "Name": "Meat",
+    "Subcategories": [
+      {
+        "Name": "Chicken"
+      },
+      {
+        "Name": "Turkey"
+      },
+      {
+        "Name": "Pork"
+      },
+      {
+        "Name": "Beef"
+      }
+    ]
+  },
+  {
+    "Name": "Fish"
+  },
+  {
+    "Name": "Dairy",
+    "Subcategories": [
+      {
+        "Name": "Milk & yoghurt"
+      },
+      {
+        "Name": "Cheese & butter"
+      }
+    ]
+  },
+  {
+    "Name": "Eggs"
+  },
+  {
+    "Name": "Bakery",
+    "Subcategories": [
+      {
+        "Name": "Bread"
+      },
+      {
+        "Name": "Bagels & buns"
+      },
+      {
+        "Name": "Cake & pastries"
+      }
+    ]
+  },
+  {
+    "Name": "Pantry",
+    "Subcategories": [
+      {
+        "Name": "Flour & sugar"
+      },
+      {
+        "Name": "Oil"
+      },
+      {
+        "Name": "Nuts & cereal"
+      },
+      {
+        "Name": "Pasta & rice"
+      },
+      {
+        "Name": "Condiments & sauces"
+      },
+      {
+        "Name": "Spices"
+      }
+    ]
+  },
+  {
+    "Name": "Frozen Food",
+    "Subcategories": [
+      {
+        "Name": "Frozen fruits"
+      },
+      {
+        "Name": "Frozen vegetables"
+      },
+      {
+        "Name": "Frozen pizza & garlic bread"
+      },
+      {
+        "Name": "Frozen meals"
+      },
+      {
+        "Name": "Frozen dessert"
+      },
+      {
+        "Name": "Ice-cream"
+      }
+    ]
+  }
+]

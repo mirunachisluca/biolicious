@@ -14,7 +14,8 @@ namespace Core.DTOs
         public int Discount { get; set; }
         public string PictureUrl { get; set; }
         public string ProductBrand { get; set; }
-        public string ProductType { get; set; }
+        public string ProductCategory { get; set; }
+        public string ProductSubcategory { get; set; }
         public bool NewEntry { get; set; }
         public int Stock { get; set; }
     }

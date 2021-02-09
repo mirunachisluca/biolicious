@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//Breakfast, Dessert, Lunch, Dinner
-
-
 namespace Core.Entities
 {
-    public class RecipeCategory : BaseEntity
+    public class ProductSubcategory : BaseEntity
     {
         public string Name { get; set; }
+        public ProductCategory ProductType { get; set; }
+        public int ProductTypeId { get; set; }
     }
 }

@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20210128132709_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +34,12 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RecipeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
 
                     b.ToTable("Diets");
                 });
@@ -172,9 +179,6 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DietId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -191,8 +195,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DietId");
 
                     b.HasIndex("RecipeCategoryId");
 
@@ -262,6 +264,13 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("RecipeSteps");
                 });
 
+            modelBuilder.Entity("Core.Entities.Diet", b =>
+                {
+                    b.HasOne("Core.Entities.Recipe", null)
+                        .WithMany("Diets")
+                        .HasForeignKey("RecipeId");
+                });
+
             modelBuilder.Entity("Core.Entities.Product", b =>
                 {
                     b.HasOne("Core.Entities.ProductBrand", "ProductBrand")
@@ -301,19 +310,11 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Recipe", b =>
                 {
-                    b.HasOne("Core.Entities.Diet", "Diet")
-                        .WithMany()
-                        .HasForeignKey("DietId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Core.Entities.RecipeCategory", "RecipeCategory")
                         .WithMany()
                         .HasForeignKey("RecipeCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Diet");
 
                     b.Navigation("RecipeCategory");
                 });
@@ -355,6 +356,8 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Recipe", b =>
                 {
+                    b.Navigation("Diets");
+
                     b.Navigation("Ingredients");
 
                     b.Navigation("RecipeSteps");

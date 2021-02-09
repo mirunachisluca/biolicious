@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20210112140945_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210209132438_DietChange")]
+    partial class DietChange
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,12 +34,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RecipeId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RecipeId");
 
                     b.ToTable("Diets");
                 });
@@ -99,7 +94,10 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("ProductBrandId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductTypeId")
+                    b.Property<int>("ProductCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductSubcategoryId")
                         .HasColumnType("int");
 
                     b.Property<int>("Stock")
@@ -109,7 +107,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("ProductBrandId");
 
-                    b.HasIndex("ProductTypeId");
+                    b.HasIndex("ProductCategoryId");
+
+                    b.HasIndex("ProductSubcategoryId");
 
                     b.ToTable("Products");
                 });
@@ -129,7 +129,7 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("ProductBrands");
                 });
 
-            modelBuilder.Entity("Core.Entities.ProductType", b =>
+            modelBuilder.Entity("Core.Entities.ProductCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -141,7 +141,27 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductTypes");
+                    b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("Core.Entities.ProductSubcategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductTypeId");
+
+                    b.ToTable("ProductSubcategories");
                 });
 
             modelBuilder.Entity("Core.Entities.Recipe", b =>
@@ -153,6 +173,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DietId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -171,6 +194,8 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DietId");
+
                     b.HasIndex("RecipeCategoryId");
 
                     b.ToTable("Recipes");
@@ -182,6 +207,9 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -236,13 +264,6 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("RecipeSteps");
                 });
 
-            modelBuilder.Entity("Core.Entities.Diet", b =>
-                {
-                    b.HasOne("Core.Entities.Recipe", null)
-                        .WithMany("Diets")
-                        .HasForeignKey("RecipeId");
-                });
-
             modelBuilder.Entity("Core.Entities.Product", b =>
                 {
                     b.HasOne("Core.Entities.ProductBrand", "ProductBrand")
@@ -251,24 +272,50 @@ namespace Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.ProductType", "ProductType")
+                    b.HasOne("Core.Entities.ProductCategory", "ProductCategory")
                         .WithMany()
-                        .HasForeignKey("ProductTypeId")
+                        .HasForeignKey("ProductCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Core.Entities.ProductSubcategory", "ProductSubcategory")
+                        .WithMany()
+                        .HasForeignKey("ProductSubcategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("ProductBrand");
+
+                    b.Navigation("ProductCategory");
+
+                    b.Navigation("ProductSubcategory");
+                });
+
+            modelBuilder.Entity("Core.Entities.ProductSubcategory", b =>
+                {
+                    b.HasOne("Core.Entities.ProductCategory", "ProductType")
+                        .WithMany("Subcategories")
+                        .HasForeignKey("ProductTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProductType");
                 });
 
             modelBuilder.Entity("Core.Entities.Recipe", b =>
                 {
+                    b.HasOne("Core.Entities.Diet", "Diet")
+                        .WithMany()
+                        .HasForeignKey("DietId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Entities.RecipeCategory", "RecipeCategory")
                         .WithMany()
                         .HasForeignKey("RecipeCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Diet");
 
                     b.Navigation("RecipeCategory");
                 });
@@ -303,10 +350,13 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Recipe");
                 });
 
+            modelBuilder.Entity("Core.Entities.ProductCategory", b =>
+                {
+                    b.Navigation("Subcategories");
+                });
+
             modelBuilder.Entity("Core.Entities.Recipe", b =>
                 {
-                    b.Navigation("Diets");
-
                     b.Navigation("Ingredients");
 
                     b.Navigation("RecipeSteps");

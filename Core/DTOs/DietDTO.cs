@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//Breakfast, Dessert, Lunch, Dinner
-
-
-namespace Core.Entities
+namespace Core.DTOs
 {
-    public class RecipeCategory : BaseEntity
+    public class DietDTO
     {
+        public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

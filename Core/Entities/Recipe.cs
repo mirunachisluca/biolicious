@@ -17,7 +17,8 @@ namespace Core.Entities
         public IEnumerable<RecipeStep> RecipeSteps { get; set; }
         public RecipeCategory RecipeCategory { get; set; }
         public int RecipeCategoryId { get; set; }
-        public IEnumerable<Diet> Diets { get; set; }
+        public Diet Diet { get; set; }
+        public int DietId { get; set; }
 
     }
 }

@@ -14,9 +14,19 @@ namespace Infrastructure.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+                .HasOne(p=>p.ProductSubcategory)
+                .WithMany()
+                .HasForeignKey(p => p.ProductSubcategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductBrand> ProductBrands { get; set; }
-        public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<ProductSubcategory> ProductSubcategories { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
         public DbSet<RecipeStep> RecipeSteps { get; set; }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class ProductType : BaseEntity
+    public class ProductCategory : BaseEntity
     {
         public string Name { get; set; }
+        public IEnumerable<ProductSubcategory> Subcategories { get; set; }
     }
 }

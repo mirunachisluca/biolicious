@@ -1,0 +1,142 @@
+[
+  //own brand
+  {
+    "Id": 1,
+    "Name": "Biolicious"
+  },
+  //fruits
+  {
+    "Id": 2,
+    "Name": "Amwell"
+  },
+  //fruits
+  {
+    "Id": 3,
+    "Name": "Arizona"
+  },
+  //fruits
+  {
+    "Id": 4,
+    "Name": "Berkane"
+  },
+  //fruits
+  {
+    "Id": 5,
+    "Name": "Chiquita"
+  },
+  //fruits & vegetables
+  {
+    "Id": 6,
+    "Name": "Del Monte"
+  },
+  //fruits
+  {
+    "Id": 7,
+    "Name": "Dole"
+  },
+  //vegetables
+  {
+    "Id": 8,
+    "Name": "Cascadian Farm"
+  },
+  //vegetables
+  {
+    "Id": 9,
+    "Name": "Green Giant"
+  },
+  //vegetables
+  {
+    "Id": 10,
+    "Name": "Muir Glen"
+  },
+  {
+    "Id": 11,
+    "Name": "Alpro"
+  },
+  //cheese
+  {
+    "Id": 12,
+    "Name": "Amul"
+  },
+  //organic meat
+  {
+    "Id": 13,
+    "Name": "Beyond Meat"
+  },
+  {
+    "Id": 14,
+    "Name": "Redmere" //vegetables
+  },
+  {
+    "Id": 15,
+    "Name": "Bonduelle" //frozen vegetables
+  },
+  {
+    "Id": 16,
+    "Name": "Green Isle" //frozen vegetables
+  },
+  {
+    "Id": 17,
+    "Name": "Tyson Foods" //meat
+  },
+  {
+    "Id": 18,
+    "Name": "Cargill Meat" //meat
+  },
+  {
+    "Id": 19,
+    "Name": "Smithfield Foods" //meat
+  },
+  {
+    "Id": 20,
+    "Name": "Kraft" //cheese
+  },
+  {
+    "Id": 21,
+    "Name": "Philadelphia" //dairy 
+  },
+  {
+    "Id": 22,
+    "Name": "President" //cheese
+  },
+  {
+    "Id": 23,
+    "Name": "Maple Hill" //milk & yoghurt
+  },
+  {
+    "Id": 24,
+    "Name": "Stonyfield" //milk & yoghurt
+  },
+  {
+    "Id": 25,
+    "Name": "Organic Valley" //milk & yoghurt
+  },
+  {
+    "Id": 26,
+    "Name": "Yoplait" //yoghurt
+  },
+  {
+    "Id": 27,
+    "Name": "Dannon" //milk & yoghurt
+  },
+  {
+    "Id": 28,
+    "Name": "Wallaby" //yoghurt
+  },
+  {
+    "Id": 29,
+    "Name": "Land O'Lakes" //butter
+  },
+  {
+    "Id": 30,
+    "Name": "Horizon" //organic butter
+  },
+  {
+    "Id": 31,
+    "Name": "Knorr" //spices
+  },
+  {
+    "Id": 32,
+    "Name": "Schwartz" //spices
+  }
+]
