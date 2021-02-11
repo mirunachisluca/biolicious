@@ -57,7 +57,7 @@ namespace API.Controllers
         {
             await _recipeService.DeleteAsync(id);
 
-            return Accepted();
+            return NoContent();
         }
 
         [HttpPost("update")]

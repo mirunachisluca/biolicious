@@ -60,7 +60,7 @@ namespace API.Controllers
         {
             await _productService.DeleteAsync(id);
 
-            return Accepted();
+            return NoContent();
         }
 
         [HttpPost("update")]
