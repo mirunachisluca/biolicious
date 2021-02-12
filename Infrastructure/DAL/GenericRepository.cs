@@ -11,10 +11,10 @@ namespace Infrastructure.Data
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly StoreContext _context;
+        private readonly StoreDbContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
-        public GenericRepository(StoreContext context)
+        public GenericRepository(StoreDbContext context)
         {
             _context = context;
             _dbSet = context.Set<TEntity>();

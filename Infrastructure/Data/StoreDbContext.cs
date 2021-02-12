@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
-    public class StoreContext : DbContext
+    public class StoreDbContext : DbContext
     {
-        public StoreContext(DbContextOptions<StoreContext> options) : base(options)
+        public StoreDbContext(DbContextOptions<StoreDbContext> options) : base(options)
         {
         }
 

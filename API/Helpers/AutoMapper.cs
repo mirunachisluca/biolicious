@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Entities.Identity;
+using API.DTOs;
 
 namespace API.Helpers
 {
@@ -30,6 +32,7 @@ namespace API.Helpers
             //CreateMap<RecipeStep, RecipeStepDTO>();
             CreateMap<RecipeCategory, RecipeCategoryDTO>();
             CreateMap<Diet, DietDTO>();
+            CreateMap<Address, AddressDTO>().ReverseMap();
         }
     }
 }

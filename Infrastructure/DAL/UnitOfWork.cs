@@ -11,7 +11,7 @@ namespace Infrastructure.DAL
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly StoreContext _context;
+        private readonly StoreDbContext _context;
         private IGenericRepository<Product> _productRepository;
         private IGenericRepository<ProductBrand> _productBrandRepository;
         private IGenericRepository<ProductCategory> _productCategoryRepository;
@@ -23,7 +23,7 @@ namespace Infrastructure.DAL
         private IGenericRepository<Intake> _intakeRepository;
         private IGenericRepository<Diet> _dietRepository;
 
-        public UnitOfWork(StoreContext context)
+        public UnitOfWork(StoreDbContext context)
         {
             _context = context;
         }
