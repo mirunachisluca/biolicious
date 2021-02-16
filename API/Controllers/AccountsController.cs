@@ -69,7 +69,9 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO register)
         {
-            if (!register.Password.Equals(register.ConfirmedPassword)) return BadRequest();
+            if (!register.Password.Equals(register.ConfirmedPassword)) return BadRequest("Passwords don't match");
+
+            if (await _userManager.FindByEmailAsync(register.Email) != null) return BadRequest("Email already exists");
 
             var user = new User
             {
