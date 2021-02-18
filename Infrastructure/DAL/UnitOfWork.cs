@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Entities.Order;
 using Core.Interfaces;
 using Infrastructure.Data;
 using System;
@@ -22,6 +23,9 @@ namespace Infrastructure.DAL
         private IGenericRepository<RecipeCategory> _recipeCategoryRepository;
         private IGenericRepository<Intake> _intakeRepository;
         private IGenericRepository<Diet> _dietRepository;
+        private IGenericRepository<Order> _orderRepository;
+        private IGenericRepository<OrderItem> _orderItemRepository;
+        private IGenericRepository<DeliveryMethod> _deliveryMethodRepository;
 
         public UnitOfWork(StoreDbContext context)
         {
@@ -189,6 +193,54 @@ namespace Infrastructure.DAL
             }
         }
 
+        public IGenericRepository<Order> OrderRepository
+        {
+            get
+            {
+                if (_orderRepository == null)
+                {
+                    _orderRepository = new GenericRepository<Order>(_context);
+                }
+                return _orderRepository;
+            }
+            set
+            {
+                _orderRepository = value;
+            }
+        }
+
+        public IGenericRepository<OrderItem> OrderItemRepository
+        {
+            get
+            {
+                if (_orderItemRepository == null)
+                {
+                    _orderItemRepository = new GenericRepository<OrderItem>(_context);
+                }
+                return _orderItemRepository;
+            }
+            set
+            {
+                _orderItemRepository = value;
+            }
+        }
+
+        public IGenericRepository<DeliveryMethod> DeliveryMethodRepository
+        {
+            get
+            {
+                if (_deliveryMethodRepository == null)
+                {
+                    _deliveryMethodRepository = new GenericRepository<DeliveryMethod>(_context);
+                }
+                return _deliveryMethodRepository;
+            }
+            set
+            {
+                _deliveryMethodRepository = value;
+            }
+        }
+
         private bool disposed = false;
 
         public void Dispose()
@@ -197,9 +249,9 @@ namespace Infrastructure.DAL
             GC.SuppressFinalize(this);
         }
 
-        public async Task Save()
+        public async Task<int> Save()
         {
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
 
         protected virtual void Dispose(bool disposing)

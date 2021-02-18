@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Entities.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,10 @@ namespace Core.Interfaces
         IGenericRepository<RecipeCategory> RecipeCategoryRepository { get; set; }
         IGenericRepository<Intake> IntakeRepository { get; set; }
         IGenericRepository<Diet> DietRepository { get; set; }
-        Task Save();
+        IGenericRepository<Order> OrderRepository { get; set; }
+        IGenericRepository<OrderItem> OrderItemRepository { get; set; }
+        IGenericRepository<DeliveryMethod> DeliveryMethodRepository { get; set; }
+        Task<int> Save();
         new void Dispose();
     }
 }

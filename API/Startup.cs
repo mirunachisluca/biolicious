@@ -70,6 +70,7 @@ namespace API
             services.AddScoped<IDietService, DietService>();
             services.AddScoped<IRecipeCategoryService, RecipeCategoryService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             var builder = services.AddIdentityCore<User>();
             builder = new IdentityBuilder(builder.UserType, builder.Services);
