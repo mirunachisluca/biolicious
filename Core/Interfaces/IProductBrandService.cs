@@ -11,6 +11,7 @@ namespace Core.Interfaces
     public interface IProductBrandService
     {
         Task<IReadOnlyList<ProductBrandDTO>> GetProductBrandsAsync();
+        Task<IReadOnlyList<ProductBrandDTO>> GetProductBrandsForCategoryAsync(int categoryId, int subcategoryId);
         Task InsertAsync(ProductBrand brand);
         Task DeleteAsync(int id);
         Task DeleteAsync(ProductBrand brand);

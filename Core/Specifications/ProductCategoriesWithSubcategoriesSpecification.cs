@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications
 {
-    public class ProductTypesWithSubtypesSpecification : BaseSpecification<ProductCategory>
+    public class ProductCategoriesWithSubcategoriesSpecification : BaseSpecification<ProductCategory>
     {
-        public ProductTypesWithSubtypesSpecification()
+        public ProductCategoriesWithSubcategoriesSpecification()
         {
             AddInclude(t => t.Subcategories);
         }

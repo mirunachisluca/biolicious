@@ -45,6 +45,17 @@ namespace API.Controllers
                 return Ok(product);
         }
 
+        [HttpGet("byName")]
+        public async Task<ActionResult<ProductDTO>> GetProductByName([FromQuery] string urlName)
+        {
+            var product = await _productService.GetByUrlNameAsync(urlName);
+
+            if (product == null)
+                return NotFound();
+            else
+                return Ok(product);
+        }
+
         [HttpPost("add")]
         public async Task<ActionResult<ProductDTO>> Insert(Product product)
         {

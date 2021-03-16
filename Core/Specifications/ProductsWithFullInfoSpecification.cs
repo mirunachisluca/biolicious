@@ -11,12 +11,15 @@ namespace Core.Specifications
     {
         public ProductsWithFullInfoSpecification(ProductSpecificationParams parameters)
             : base(x =>
-                (string.IsNullOrEmpty(parameters.Search) || x.Name.ToLower().Contains(parameters.Search)) &&
-                (!parameters.BrandId.HasValue || x.ProductBrandId == parameters.BrandId) &&
-                (!parameters.CategoryId.HasValue || x.ProductCategoryId == parameters.CategoryId))
+                (String.IsNullOrEmpty(parameters.Search) || x.Name.ToLower().Contains(parameters.Search)) &&
+                (!(parameters.BrandId.HasValue && parameters.BrandId != 0) || x.ProductBrandId == parameters.BrandId) &&
+                (!parameters.CategoryId.HasValue || x.ProductCategoryId == parameters.CategoryId) &&
+                (!(parameters.SubcategoryId.HasValue && parameters.SubcategoryId != 0) || x.ProductSubcategoryId == parameters.SubcategoryId))
         {
+
             AddInclude(p => p.ProductBrand);
             AddInclude(p => p.ProductCategory);
+            AddInclude(p => p.ProductSubcategory);
             AddOrderBy(p => p.Name);
             ApplyPaging(parameters.PageSize * (parameters.PageIndex - 1), parameters.PageSize);
 
@@ -42,6 +45,14 @@ namespace Core.Specifications
         {
             AddInclude(p => p.ProductBrand);
             AddInclude(p => p.ProductCategory);
+            AddInclude(p => p.ProductSubcategory);
+        }
+
+        public ProductsWithFullInfoSpecification(string url) : base(p=>p.UrlName == url)
+        {
+            AddInclude(p => p.ProductBrand);
+            AddInclude(p => p.ProductCategory);
+            AddInclude(p => p.ProductSubcategory);
         }
     }
 }

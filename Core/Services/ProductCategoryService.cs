@@ -23,7 +23,7 @@ namespace Core.Services
 
         public async Task<IReadOnlyList<ProductCategoryDTO>> GetProductCategoriesAsync()
         {
-            var spec = new ProductTypesWithSubtypesSpecification();
+            var spec = new ProductCategoriesWithSubcategoriesSpecification();
             
             var categories = await _unitOfWork.ProductCategoryRepository.ListAsync(spec);
 

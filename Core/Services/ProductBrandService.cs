@@ -47,5 +47,30 @@ namespace Core.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IReadOnlyList<ProductBrandDTO>> GetProductBrandsForCategoryAsync(int categoryId, int subcategoryId)
+        {
+            var products = await _unitOfWork.ProductRepository.ListAllAsync();
+            var brands = await _unitOfWork.ProductBrandRepository.ListAllAsync();
+
+            if (subcategoryId != 0)
+            {
+                var specifiedBrands = (from brand in brands
+                                       join product in products on brand equals product.ProductBrand
+                                       where product.ProductCategoryId == categoryId && product.ProductSubcategoryId == subcategoryId
+                                       select brand).Distinct();
+
+                return _mapper.Map<IReadOnlyList<ProductBrandDTO>>(specifiedBrands);
+            }
+            else
+            {
+                var specifiedBrands = (from brand in brands
+                                       join product in products on brand equals product.ProductBrand
+                                       where product.ProductCategoryId == categoryId
+                                       select brand).Distinct();
+
+                return _mapper.Map<IReadOnlyList<ProductBrandDTO>>(specifiedBrands);
+            }
+        }
     }
 }

@@ -31,6 +31,14 @@ namespace Core.Services
             return _mapper.Map<ProductDTO>(product);
         }
 
+        public async Task<ProductDTO> GetByUrlNameAsync(string urlName)
+        {
+            var spec = new ProductsWithFullInfoSpecification(urlName);
+
+            var product = await _unitOfWork.ProductRepository.GetEntityWithSpec(spec);
+            return _mapper.Map<ProductDTO>(product);
+        }
+
         public async Task<Pagination<ProductDTO>> GetProductsAsync(ProductSpecificationParams parameters)
         {
             var spec = new ProductsWithFullInfoSpecification(parameters);
@@ -48,6 +56,7 @@ namespace Core.Services
 
         public async Task InsertAsync(Product product)
         {
+            product.UrlName = await GetProductUrlName(product.ProductBrandId, product.Name);
             await _unitOfWork.ProductRepository.InsertAsync(product);
             await _unitOfWork.Save();
         }
@@ -68,6 +77,16 @@ namespace Core.Services
         {
             _unitOfWork.ProductRepository.Update(product);
             await _unitOfWork.Save();
+        }
+
+        private async Task<string> GetProductUrlName(int brandId, string product)
+        {
+            var brand = await _unitOfWork.ProductBrandRepository.GetByIdAsync(brandId);
+
+            var brandName = brand.Name.ToLower().Replace(" ", "-");
+            var productName = product.ToLower().Replace(" ", "-");
+
+            return brandName + "-" + productName;
         }
 
     }

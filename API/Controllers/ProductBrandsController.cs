@@ -26,5 +26,13 @@ namespace API.Controllers
 
             return Ok(brands);
         }
+
+        [HttpGet("category")]
+        public async Task<ActionResult<IReadOnlyList<ProductBrandDTO>>> GetProductBrandsForCategory([FromQuery] int categoryId, int subcategoryId)
+        {
+            var brands = await _productBrandService.GetProductBrandsForCategoryAsync(categoryId, subcategoryId);
+
+            return Ok(brands);
+        }
     }
 }
