@@ -15,6 +15,7 @@ namespace Core.Interfaces
         Task<ProductDTO> GetByIdAsync(int id);
         Task<ProductDTO> GetByUrlNameAsync(string urlName);
         Task<Pagination<ProductDTO>> GetProductsAsync(ProductSpecificationParams parameters);
+        Task<IReadOnlyList<ProductDTO>> GetNewProductsAsync();
         Task InsertAsync(Product product);
         Task DeleteAsync(int id);
         Task DeleteAsync(Product product);

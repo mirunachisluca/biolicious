@@ -1,9 +1,5 @@
 ﻿using Core.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Specifications
 {
@@ -11,23 +7,42 @@ namespace Core.Specifications
     {
         public RecipeSpecification(RecipeSpecificationParams parameters)
             : base(x =>
-                 (!parameters.CategoryId.HasValue || x.RecipeCategoryId == parameters.CategoryId) &&
-                 (!parameters.DietId.HasValue || x.Diet.Id == parameters.DietId ))
+                 (String.IsNullOrEmpty(parameters.Search) || x.Name.ToLower().Contains(parameters.Search)) &&
+                 (!(parameters.CategoryId.HasValue && parameters.CategoryId != 0) || x.RecipeCategoryId == parameters.CategoryId) &&
+                 (!(parameters.DietId.HasValue && parameters.DietId != 0) || x.Diet.Id == parameters.DietId))
         {
             AddInclude(r => r.Ingredients);
             AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}");
+            AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductBrand)}");
+            AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductCategory)}");
             AddInclude(r => r.RecipeSteps);
             AddInclude(r => r.RecipeCategory);
             AddInclude(r => r.Diet);
+            AddInclude(r => r.Intake);
         }
 
         public RecipeSpecification(int id) : base(r => r.Id == id)
         {
             AddInclude(r => r.Ingredients);
             AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}");
+            AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductBrand)}");
+            AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductCategory)}");
             AddInclude(r => r.RecipeSteps);
             AddInclude(r => r.RecipeCategory);
             AddInclude(r => r.Diet);
+            AddInclude(r => r.Intake);
+        }
+
+        public RecipeSpecification(string url) : base(r => r.UrlName == url)
+        {
+            AddInclude(r => r.Ingredients);
+            AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}");
+            AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductBrand)}");
+            AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductCategory)}");
+            AddInclude(r => r.RecipeSteps);
+            AddInclude(r => r.RecipeCategory);
+            AddInclude(r => r.Diet);
+            AddInclude(r => r.Intake);
         }
     }
 }

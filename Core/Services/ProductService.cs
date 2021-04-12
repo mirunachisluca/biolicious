@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using Core.Interfaces;
 using Core.DTOs;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Specifications;
@@ -52,6 +49,13 @@ namespace Core.Services
             var data = _mapper.Map<IReadOnlyList<ProductDTO>>(products);
 
             return new Pagination<ProductDTO>(parameters.PageIndex, parameters.PageSize, totalItems, data);
+        }
+
+        public async Task<IReadOnlyList<ProductDTO>> GetNewProductsAsync()
+        {
+            var products = await _unitOfWork.ProductRepository.ListAsync(new NewEntryProductsSpecification());
+
+            return _mapper.Map<IReadOnlyList<ProductDTO>>(products);
         }
 
         public async Task InsertAsync(Product product)

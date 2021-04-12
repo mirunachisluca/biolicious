@@ -42,7 +42,18 @@ namespace API.Controllers
             return Ok(recipe);
         }
 
-        [HttpPost("add")]
+        [HttpGet("byName")]
+        public async Task<ActionResult<RecipeDTO>> GetRecipeByName([FromQuery] string urlName)
+        {
+            var recipe = await _recipeService.GetByUrlNameAsync(urlName);
+
+            if (recipe == null)
+                return NotFound();
+            else
+                return Ok(recipe);
+        }
+
+        [HttpPut]
         public async Task<ActionResult<ProductDTO>> Insert(Recipe recipe)
         {
             await _recipeService.InsertAsync(recipe);
@@ -52,7 +63,7 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetRecipe), new { id = recipe.Id }, recipeToReturn);
         }
 
-        [HttpPost("delete/{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             await _recipeService.DeleteAsync(id);
@@ -60,7 +71,7 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [HttpPost("update")]
+        [HttpPost]
         public async Task<ActionResult> Update(Recipe recipe)
         {
             await _recipeService.UpdateAsync(recipe);

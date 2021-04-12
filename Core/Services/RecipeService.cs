@@ -31,6 +31,15 @@ namespace Core.Services
             return _mapper.Map<RecipeDTO>(recipe);
         }
 
+        public async Task<RecipeDTO> GetByUrlNameAsync(string urlName)
+        {
+            var spec = new RecipeSpecification(urlName);
+
+            var recipe = await _unitOfWork.RecipeRepository.GetEntityWithSpec(spec);
+
+            return _mapper.Map<RecipeDTO>(recipe);
+        }
+
         public async Task<IReadOnlyList<RecipeDTO>> GetRecipesAsync(RecipeSpecificationParams parameters)
         {
             var spec = new RecipeSpecification(parameters);
@@ -42,6 +51,7 @@ namespace Core.Services
 
         public async Task InsertAsync(Recipe recipe)
         {
+            recipe.UrlName = recipe.Name.ToLower().Replace(" ", "-");
             await _unitOfWork.RecipeRepository.InsertAsync(recipe);
             await _unitOfWork.Save();
         }

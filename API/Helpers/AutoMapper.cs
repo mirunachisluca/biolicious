@@ -24,7 +24,13 @@ namespace API.Helpers
                 .ForMember(d => d.Diet, o => o.MapFrom(s => s.Diet.Name))
                 .ForMember(d => d.RecipeSteps, o => o.MapFrom(s => s.RecipeSteps));
             CreateMap<RecipeIngredient, RecipeIngredientDTO>()
-                .ForMember(d => d.ProductName, o => o.MapFrom(s => s.Product.Name));
+                .ForMember(d => d.ProductId, o => o.MapFrom(s => s.Product.Id))
+                .ForMember(d => d.ProductName, o => o.MapFrom(s => s.Product.Name))
+                .ForMember(d => d.ProductWeight, o => o.MapFrom(s => s.Product.Weight))
+                .ForMember(d => d.ProductPrice, o => o.MapFrom(s => s.Product.Price))
+                .ForMember(d => d.PictureUrl, o => o.MapFrom(s => s.Product.PictureUrl))
+                .ForMember(d => d.ProductBrand, o => o.MapFrom(s => s.Product.ProductBrand.Name))
+                .ForMember(d => d.ProductCategory, o => o.MapFrom(s => s.Product.ProductCategory.Name));
             //CreateMap<RecipeStep, RecipeStepDTO>();
             CreateMap<RecipeCategory, RecipeCategoryDTO>();
             CreateMap<Diet, DietDTO>();
@@ -37,6 +43,7 @@ namespace API.Helpers
                 .ForMember(d => d.ProductItemId, o => o.MapFrom(s => s.ItemOrdered.ProductItemId))
                 .ForMember(d => d.Name, o => o.MapFrom(s => s.ItemOrdered.Name))
                 .ForMember(d => d.PictureUrl, o => o.MapFrom(s => s.ItemOrdered.PictureUrl));
+            CreateMap<Intake, IntakeDTO>();
         }
     }
 }

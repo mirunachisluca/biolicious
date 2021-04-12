@@ -25,7 +25,7 @@ namespace Infrastructure.DAL
 
             return cart.IsNullOrEmpty ? null : JsonSerializer.Deserialize<ShoppingCart>(cart);
         }
-
+         
         public async Task<ShoppingCart> UpdateShoppingCartAsync(ShoppingCart shoppingCart)
         {
             var created = await _database.StringSetAsync(shoppingCart.Id, JsonSerializer.Serialize(shoppingCart), TimeSpan.FromDays(30));
@@ -38,6 +38,22 @@ namespace Infrastructure.DAL
         public async Task<bool> DeleteShoppingCartAsync(string id)
         {
             return await _database.KeyDeleteAsync(id);
+        }
+
+        public async Task<string> GetShoppingCartIdAsync(string userEmail)
+        {
+            var cartId = await _database.StringGetAsync(userEmail);
+
+            return cartId;
+        }
+
+        public async Task<object> SetShoppingCartIdAsync(string userEmail, string cartId)
+        {
+            var created = await _database.StringSetAsync(userEmail, cartId);
+
+            if (!created) return null;
+
+            return new { userEmail, cartId };
         }
     }
 }

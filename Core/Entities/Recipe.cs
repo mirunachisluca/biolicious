@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Core.Entities
 {
@@ -15,10 +11,13 @@ namespace Core.Entities
         public IEnumerable<RecipeIngredient> Ingredients { get; set; }
         public int ServingSize { get; set; }
         public IEnumerable<RecipeStep> RecipeSteps { get; set; }
+        public string UrlName { get; set; }
         public RecipeCategory RecipeCategory { get; set; }
         public int RecipeCategoryId { get; set; }
         public Diet Diet { get; set; }
         public int DietId { get; set; }
+        public Intake Intake { get; set; }
+        public int IntakeId { get; set; }
 
     }
 }

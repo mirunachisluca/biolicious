@@ -21,11 +21,19 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ShoppingCart>> GetBasketById(string id)
+        public async Task<ActionResult<ShoppingCart>> GetShoppingCartById(string id)
         {
             var cart = await _cartRepository.GetShopingCartAsync(id);
 
             return Ok(cart ?? new ShoppingCart(id));
+        }
+
+        [HttpGet("cartId")]
+        public async Task<ActionResult<string>> GetCartIdByUserEmail(string userEmail)
+        {
+            var cartId = await _cartRepository.GetShoppingCartIdAsync(userEmail);
+
+            return Ok(cartId);
         }
 
         [HttpPost("update")]
@@ -36,7 +44,15 @@ namespace API.Controllers
             return Ok(updatedCart);
         }
 
-        [HttpPost("delete/{id}")]
+        [HttpPost("updateCartId")]
+        public async Task<ActionResult<object>> UpdateShoppingCartIdForUser(string userEmail, string cartId)
+        {
+            var updatedId = await _cartRepository.SetShoppingCartIdAsync(userEmail, cartId);
+
+            return Ok(updatedId);
+        }
+
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteShoppingCart(string id)
         {
             await _cartRepository.DeleteShoppingCartAsync(id);

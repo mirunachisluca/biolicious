@@ -56,6 +56,14 @@ namespace API.Controllers
                 return Ok(product);
         }
 
+        [HttpGet("newProducts")]
+        public async Task<ActionResult<IReadOnlyList<ProductDTO>>> GetNewProducts()
+        {
+            var products = await _productService.GetNewProductsAsync();
+
+            return Ok(products);
+        }
+
         [HttpPost("add")]
         public async Task<ActionResult<ProductDTO>> Insert(Product product)
         {
@@ -66,7 +74,7 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetProduct), new { id = productToReturn.Id }, productToReturn);
         }
 
-        [HttpPost("delete/{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             await _productService.DeleteAsync(id);

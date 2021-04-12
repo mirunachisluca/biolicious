@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20210409140617_RecipeIntake")]
+    partial class RecipeIntake
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,22 +46,10 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("Carbohydrates")
-                        .HasColumnType("float");
-
-                    b.Property<int>("EnergyKCAL")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EnergyKJ")
+                    b.Property<int>("Energy")
                         .HasColumnType("int");
 
                     b.Property<double>("Fat")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Fibres")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Proteins")
                         .HasColumnType("float");
 
                     b.Property<double>("Salt")
@@ -296,9 +286,6 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<int>("ServingSize")
                         .HasColumnType("int");
-
-                    b.Property<string>("UrlName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

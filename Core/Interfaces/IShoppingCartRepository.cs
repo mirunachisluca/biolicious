@@ -12,5 +12,7 @@ namespace Core.Interfaces
         Task<ShoppingCart> GetShopingCartAsync(string id);
         Task<ShoppingCart> UpdateShoppingCartAsync(ShoppingCart shoppingCart);
         Task<bool> DeleteShoppingCartAsync(string id);
+        Task<string> GetShoppingCartIdAsync(string userEmail);
+        Task<object> SetShoppingCartIdAsync(string userEmail, string cartId);
     }
 }

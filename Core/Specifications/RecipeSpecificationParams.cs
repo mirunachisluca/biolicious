@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Specifications
 {
@@ -10,5 +6,13 @@ namespace Core.Specifications
     {
         public int? CategoryId {get;set;}
         public int? DietId { get; set; }
+        public string Sort { get; set; }
+
+        private string _search;
+        public string Search
+        {
+            get => _search;
+            set => _search = String.IsNullOrEmpty(value) ? "" : value.ToLower();
+        }
     }
 }

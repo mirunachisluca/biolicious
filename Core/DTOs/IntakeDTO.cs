@@ -1,7 +1,8 @@
-﻿namespace Core.Entities
+﻿namespace Core.DTOs
 {
-    public class Intake : BaseEntity
+    public class IntakeDTO
     {
+        public int Id { get; set; }
         public int EnergyKJ { get; set; }
         public int EnergyKCAL { get; set; }
         public double Fat { get; set; }
