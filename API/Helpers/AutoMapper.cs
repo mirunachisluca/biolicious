@@ -2,6 +2,7 @@
 using AutoMapper;
 using Core.DTOs;
 using Core.Entities;
+using Core.Entities.Identity;
 using Core.Entities.Order;
 
 namespace API.Helpers
@@ -37,13 +38,14 @@ namespace API.Helpers
             CreateMap<Core.Entities.Identity.Address, AddressDTO>().ReverseMap();
             CreateMap<AddressDTO, Core.Entities.Order.Address>();
             CreateMap<Order, OrderToReturnDTO>()
-                .ForMember(d => d.DeliveryMethod, o=>o.MapFrom(s=>s.DeliveryMethod.Name))
-                .ForMember(d => d.DeliveryPrice,o=>o.MapFrom(s=>s.DeliveryMethod.Price));
+                .ForMember(d => d.DeliveryMethod, o => o.MapFrom(s => s.DeliveryMethod.Name))
+                .ForMember(d => d.DeliveryPrice, o => o.MapFrom(s => s.DeliveryMethod.Price));
             CreateMap<OrderItem, OrderItemDTO>()
                 .ForMember(d => d.ProductItemId, o => o.MapFrom(s => s.ItemOrdered.ProductItemId))
                 .ForMember(d => d.Name, o => o.MapFrom(s => s.ItemOrdered.Name))
                 .ForMember(d => d.PictureUrl, o => o.MapFrom(s => s.ItemOrdered.PictureUrl));
             CreateMap<Intake, IntakeDTO>();
+            CreateMap<User, UserDetailsDTO>();
         }
     }
 }

@@ -36,5 +36,14 @@ namespace Infrastructure.Identity
                 await userManager.CreateAsync(user, "ChiMina*98");
             }
         }
+
+        public static async Task SeedUserRolesAsync(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.Roles.Any())
+            {
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+                await roleManager.CreateAsync(new IdentityRole("User"));
+            }
+        }
     }
 }

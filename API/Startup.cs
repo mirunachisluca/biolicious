@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
 using Core.Entities.Identity;
 using Core.Interfaces;
 using Core.Services;
@@ -13,17 +7,15 @@ using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
+using System.Text;
 
 namespace API
 {
@@ -72,10 +64,20 @@ namespace API
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IOrderService, OrderService>();
 
-            var builder = services.AddIdentityCore<User>();
-            builder = new IdentityBuilder(builder.UserType, builder.Services);
-            builder.AddEntityFrameworkStores<UserDbContext>();
-            builder.AddSignInManager<SignInManager<User>>();
+            //var builder = services.AddIdentityCore<User>();
+            //builder = new IdentityBuilder(builder.UserType, builder.Services);
+            //builder.AddEntityFrameworkStores<UserDbContext>();
+            //builder.AddSignInManager<SignInManager<User>>();
+
+            //services.AddIdentity<User, IdentityRole>()
+            //        .AddEntityFrameworkStores<UserDbContext>()
+            //        .AddSignInManager<SignInManager<User>>();
+
+            services.AddIdentityCore<User>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<UserDbContext>()
+                .AddSignInManager<SignInManager<User>>();
+
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -90,6 +92,13 @@ namespace API
                     };
 
                 });
+
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+            //    options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
+            //    options.AddPolicy("RequireAuthorization", policy => policy.RequireRole("Admin", "User"));
+            //});
 
             services.AddCors(o => o.AddPolicy("AllowAll", builder =>
             {

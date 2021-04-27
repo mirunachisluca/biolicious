@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.DTOs;
 using Core.Entities;
+using Core.Helpers;
 using Core.Interfaces;
 using Core.Specifications;
 using System;
@@ -40,13 +41,19 @@ namespace Core.Services
             return _mapper.Map<RecipeDTO>(recipe);
         }
 
-        public async Task<IReadOnlyList<RecipeDTO>> GetRecipesAsync(RecipeSpecificationParams parameters)
+        public async Task<Pagination<RecipeDTO>> GetRecipesAsync(RecipeSpecificationParams parameters)
         {
             var spec = new RecipeSpecification(parameters);
 
             var recipes = await _unitOfWork.RecipeRepository.ListAsync(spec);
 
-            return _mapper.Map<IReadOnlyList<RecipeDTO>>(recipes);
+            var countSpec = new RecipesWithCountFilterSpecification(parameters);
+
+            var totalItems = await _unitOfWork.RecipeRepository.CountAsync(countSpec);
+
+            var data = _mapper.Map<IReadOnlyList<RecipeDTO>>(recipes);
+
+            return new Pagination<RecipeDTO>(parameters.PageIndex, parameters.PageSize, totalItems, data);
         }
 
         public async Task InsertAsync(Recipe recipe)

@@ -7,10 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -33,7 +29,7 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public async Task<ActionResult<UserDTO>> GetCurrentUser()
         {
@@ -43,9 +39,18 @@ namespace API.Controllers
                 return Ok(new UserDTO
                 {
                     DisplayName = user.FirstName,
-                    Token = _tokenService.GenerateToken(user)
+                    Token = await _tokenService.GenerateToken(user)
                 });
             else return NotFound();
+        }
+
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet("details")]
+        public async Task<ActionResult<UserDetailsDTO>> GetUserDetails()
+        {
+            var user = await _userManager.FindUserByEmailFromClaimsWithAddressAsync(HttpContext.User);
+
+            return _mapper.Map<UserDetailsDTO>(user);
         }
 
         [HttpPost("login")]
@@ -62,7 +67,7 @@ namespace API.Controllers
             return Ok(new UserDTO
             {
                 DisplayName = user.FirstName,
-                Token = _tokenService.GenerateToken(user)
+                Token = await _tokenService.GenerateToken(user)
             });
         }
 
@@ -78,17 +83,19 @@ namespace API.Controllers
                 FirstName = register.FirstName,
                 LastName = register.LastName,
                 Email = register.Email,
-                UserName = register.Username
+                UserName = register.Email
             };
-            
+
             var result = await _userManager.CreateAsync(user, register.Password);
 
             if (!result.Succeeded) return BadRequest();
 
+            await _userManager.AddToRoleAsync(user, "User");
+
             return Created("", new UserDTO
             {
                 DisplayName = user.FirstName,
-                Token = _tokenService.GenerateToken(user)
+                Token = await _tokenService.GenerateToken(user)
             });
 
         }

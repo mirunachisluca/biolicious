@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.DTOs;
 using Core.Entities;
+using Core.Helpers;
 using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +27,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<RecipeDTO>>> GetRecipes([FromQuery] RecipeSpecificationParams parameters)
+        public async Task<ActionResult<Pagination<RecipeDTO>>> GetRecipes([FromQuery] RecipeSpecificationParams parameters)
         {
             var recipes = await _recipeService.GetRecipesAsync(parameters);
 
