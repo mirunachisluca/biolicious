@@ -123,6 +123,8 @@ namespace API
 
             app.UseRouting();
 
+            app.UseStaticFiles();
+
             app.UseCors("AllowAll");
 
             app.UseAuthentication();

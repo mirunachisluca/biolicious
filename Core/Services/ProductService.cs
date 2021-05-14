@@ -60,7 +60,7 @@ namespace Core.Services
 
         public async Task InsertAsync(Product product)
         {
-            product.UrlName = await GetProductUrlName(product.ProductBrandId, product.Name);
+            product.UrlName = await GetProductUrlName(product.ProductBrandId, product.Name, product.Weight);
             await _unitOfWork.ProductRepository.InsertAsync(product);
             await _unitOfWork.Save();
         }
@@ -79,19 +79,20 @@ namespace Core.Services
 
         public async Task UpdateAsync(Product product)
         {
-            product.UrlName = await GetProductUrlName(product.ProductBrandId, product.Name);
+            product.UrlName = await GetProductUrlName(product.ProductBrandId, product.Name, product.Weight);
             _unitOfWork.ProductRepository.Update(product);
             await _unitOfWork.Save();
         }
 
-        private async Task<string> GetProductUrlName(int brandId, string product)
+        private async Task<string> GetProductUrlName(int brandId, string name, string weight)
         {
             var brand = await _unitOfWork.ProductBrandRepository.GetByIdAsync(brandId);
 
             var brandName = brand.Name.ToLower().Replace(" ", "-").Replace(".","");
-            var productName = product.ToLower().Replace(" ", "-");
+            var productName = name.ToLower().Replace(" ", "-");
+            weight = weight.ToLower().Replace(" ", "");
 
-            return brandName + "-" + productName;
+            return brandName + "-" + productName + "-" + weight;
         }
 
     }
