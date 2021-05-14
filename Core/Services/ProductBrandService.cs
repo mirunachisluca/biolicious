@@ -2,10 +2,9 @@
 using Core.DTOs;
 using Core.Entities;
 using Core.Interfaces;
-using System;
+using Core.Specifications;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Services
@@ -21,31 +20,46 @@ namespace Core.Services
             _mapper = mapper;
         }
 
-        public Task DeleteAsync(int id)
+        public async Task<ProductBrandDTO> GetProductBrandAsync(int id)
         {
-            throw new NotImplementedException();
+            var brand = await _unitOfWork.ProductBrandRepository.GetByIdAsync(id);
+
+            return _mapper.Map<ProductBrandDTO>(brand);
         }
 
-        public Task DeleteAsync(ProductBrand brand)
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task<IReadOnlyList<ProductBrandDTO>> GetProductBrandsAsync()
+        public async Task<IReadOnlyList<ProductBrandDTO>> GetProductBrandsAsync(string sort)
         {
-            var brands = await _unitOfWork.ProductBrandRepository.ListAllAsync();
+            var spec = new ProductBrandsWithSortFilterSpecification(sort);
+
+            var brands = await _unitOfWork.ProductBrandRepository.ListAsync(spec);
+
+            //brands = brands.OrderByDescending(b => b.Id).ToList();
 
             return _mapper.Map<IReadOnlyList<ProductBrandDTO>>(brands);
         }
 
-        public Task InsertAsync(ProductBrand brand)
+        public async Task InsertAsync(ProductBrand brand)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.ProductBrandRepository.InsertAsync(brand);
+            await _unitOfWork.Save();
         }
 
-        public Task UpdateAsync(ProductBrand brand)
+        public async Task UpdateAsync(ProductBrand brand)
         {
-            throw new NotImplementedException();
+            _unitOfWork.ProductBrandRepository.Update(brand);
+            await _unitOfWork.Save();
+        }
+        public async Task DeleteAsync(int id)
+        {
+            await _unitOfWork.ProductBrandRepository.DeleteAsync(id);
+            await _unitOfWork.Save();
+        }
+
+        public async Task DeleteAsync(ProductBrand brand)
+        {
+            _unitOfWork.ProductBrandRepository.Delete(brand);
+            await _unitOfWork.Save();
         }
 
         public async Task<IReadOnlyList<ProductBrandDTO>> GetProductBrandsForCategoryAsync(int categoryId, int subcategoryId)

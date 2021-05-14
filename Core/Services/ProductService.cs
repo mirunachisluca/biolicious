@@ -79,6 +79,7 @@ namespace Core.Services
 
         public async Task UpdateAsync(Product product)
         {
+            product.UrlName = await GetProductUrlName(product.ProductBrandId, product.Name);
             _unitOfWork.ProductRepository.Update(product);
             await _unitOfWork.Save();
         }
@@ -87,7 +88,7 @@ namespace Core.Services
         {
             var brand = await _unitOfWork.ProductBrandRepository.GetByIdAsync(brandId);
 
-            var brandName = brand.Name.ToLower().Replace(" ", "-");
+            var brandName = brand.Name.ToLower().Replace(" ", "-").Replace(".","");
             var productName = product.ToLower().Replace(" ", "-");
 
             return brandName + "-" + productName;

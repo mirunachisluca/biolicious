@@ -110,7 +110,7 @@ namespace API.Controllers
         }
 
         [Authorize]
-        [HttpPost("updateAddress")]
+        [HttpPut("updateAddress")]
         public async Task<ActionResult<AddressDTO>> UpdateUserAddress(AddressDTO newAddress)
         {
             var user = await _userManager.FindUserByEmailFromClaimsWithAddressAsync(HttpContext.User);
@@ -122,6 +122,18 @@ namespace API.Controllers
             if (result.Succeeded) return Ok(_mapper.Map<AddressDTO>(user.Address));
 
             return BadRequest("problem updating the user address");
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> DeleteAccount()
+        {
+            var user = await _userManager.FindUserByEmailFromClaimsAsync(HttpContext.User);
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded) return Ok();
+
+            return BadRequest();
         }
     }
 }

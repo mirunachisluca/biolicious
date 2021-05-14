@@ -4,10 +4,7 @@ using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -39,10 +36,9 @@ namespace API.Controllers
         {
             var product = await _productService.GetByIdAsync(id);
 
-            if (product == null)
-                return NotFound();
-            else
-                return Ok(product);
+            if (product == null) return NotFound();
+
+            return Ok(product);
         }
 
         [HttpGet("byName")]
@@ -64,7 +60,7 @@ namespace API.Controllers
             return Ok(products);
         }
 
-        [HttpPost("add")]
+        [HttpPost]
         public async Task<ActionResult<ProductDTO>> Insert(Product product)
         {
             await _productService.InsertAsync(product);
@@ -82,7 +78,7 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [HttpPost("update")]
+        [HttpPut]
         public async Task<ActionResult> Update(Product product)
         {
             await _productService.UpdateAsync(product);

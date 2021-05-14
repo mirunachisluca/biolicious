@@ -2,10 +2,7 @@
 using Core.DTOs;
 using Core.Entities;
 using Core.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Services
@@ -35,23 +32,28 @@ namespace Core.Services
             return _mapper.Map<IReadOnlyList<DietDTO>>(diets);
         }
 
-        public Task InsertAsync(Diet diet)
+        public async Task InsertAsync(Diet diet)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.DietRepository.InsertAsync(diet);
+            await _unitOfWork.Save();
         }
 
-        public Task UpdateAsync(Diet diet)
+        public async Task UpdateAsync(Diet diet)
         {
-            throw new NotImplementedException();
-        }
-        public Task DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
+            _unitOfWork.DietRepository.Update(diet);
+            await _unitOfWork.Save();
         }
 
-        public Task DeleteAsync(Diet diet)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.DietRepository.DeleteAsync(id);
+            await _unitOfWork.Save();
+        }
+
+        public async Task DeleteAsync(Diet diet)
+        {
+            _unitOfWork.DietRepository.Delete(diet);
+            await _unitOfWork.Save();
         }
     }
 }
