@@ -2,6 +2,7 @@
 using Core.DTOs;
 using Core.Entities;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -40,6 +41,7 @@ namespace API.Controllers
             return Ok(diet);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult> Insert(Diet diet)
         {
@@ -50,6 +52,7 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetDiet), new { id = dietToReturn.Id }, dietToReturn);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<ActionResult> Update(Diet diet)
         {
@@ -58,6 +61,7 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

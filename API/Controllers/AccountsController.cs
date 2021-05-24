@@ -124,6 +124,7 @@ namespace API.Controllers
             return BadRequest("problem updating the user address");
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpDelete]
         public async Task<ActionResult> DeleteAccount()
         {

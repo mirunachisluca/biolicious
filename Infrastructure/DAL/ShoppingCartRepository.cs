@@ -2,9 +2,6 @@
 using Core.Interfaces;
 using StackExchange.Redis;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -25,7 +22,7 @@ namespace Infrastructure.DAL
 
             return cart.IsNullOrEmpty ? null : JsonSerializer.Deserialize<ShoppingCart>(cart);
         }
-         
+
         public async Task<ShoppingCart> UpdateShoppingCartAsync(ShoppingCart shoppingCart)
         {
             var created = await _database.StringSetAsync(shoppingCart.Id, JsonSerializer.Serialize(shoppingCart), TimeSpan.FromDays(30));

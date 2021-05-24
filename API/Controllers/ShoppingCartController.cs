@@ -1,10 +1,8 @@
-﻿using Core.Entities;
+﻿using Core.DTOs;
+using Core.Entities;
 using Core.Interfaces;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -14,10 +12,12 @@ namespace API.Controllers
     public class ShoppingCartController : ControllerBase
     {
         private readonly IShoppingCartRepository _cartRepository;
+        private readonly IProductService _productService;
 
-        public ShoppingCartController(IShoppingCartRepository cartRepository)
+        public ShoppingCartController(IShoppingCartRepository cartRepository, IProductService productService)
         {
             _cartRepository = cartRepository;
+            _productService = productService;
         }
 
         [HttpGet("{id}")]
@@ -25,7 +25,38 @@ namespace API.Controllers
         {
             var cart = await _cartRepository.GetShopingCartAsync(id);
 
-            return Ok(cart ?? new ShoppingCart(id));
+            if (cart != null)
+            {
+                var modified = false;
+
+                foreach (var item in cart.Items)
+                {
+                    var product = await _productService.GetByIdAsync(item.Id);
+
+                    if (CheckForUpdates(item, product))
+                    {
+                        item.Name = product.Name;
+                        item.Price = product.Price;
+                        item.Discount = product.Discount;
+                        item.PictureUrl = product.PictureUrl;
+                        item.Weight = product.Weight;
+                        item.Brand = product.ProductBrand;
+                        item.Category = product.ProductCategory;
+                        item.Subcategory = product.ProductSubcategory;
+
+                        modified = true;
+                    }
+                }
+
+                if (modified)
+                {
+                    await UpdateShoppingCart(cart);
+                }
+
+                return Ok(cart);
+            }
+
+            return Ok(new ShoppingCart(id));
         }
 
         [HttpGet("cartId")]
@@ -58,6 +89,23 @@ namespace API.Controllers
             await _cartRepository.DeleteShoppingCartAsync(id);
 
             return NoContent();
+        }
+
+        private bool CheckForUpdates(ShoppingCartItem item, ProductDTO product)
+        {
+            if (item.Price != product.Price ||
+                item.Discount != product.Discount ||
+                !item.Weight.Equals(product.Weight) ||
+                !item.PictureUrl.Equals(product.PictureUrl) ||
+                !item.Name.Equals(product.Name) ||
+                !item.Category.Equals(product.ProductCategory) ||
+                !item.Brand.Equals(product.ProductBrand) ||
+                item.Subcategory != product.ProductSubcategory)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

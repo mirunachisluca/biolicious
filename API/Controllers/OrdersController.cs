@@ -2,9 +2,9 @@
 using AutoMapper;
 using Core.Entities.Order;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -25,6 +25,7 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         [ActionName(nameof(GetOrder))]
         public async Task<ActionResult<OrderToReturnDTO>> GetOrder(int id)
@@ -37,7 +38,8 @@ namespace API.Controllers
 
             return Ok(_mapper.Map<OrderToReturnDTO>(order));
         }
-        
+
+        [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<OrderToReturnDTO>>> GetOrdersForUser()
         {
@@ -53,11 +55,11 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<OrderToReturnDTO>> CreateOrder(OrderDTO orderDTO)
         {
-            var userEmail = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            //var userEmail = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
             var address = _mapper.Map<Address>(orderDTO.ShippingAddress);
 
-            var order = await _orderService.CreateOrderAsync(userEmail, orderDTO.DeliveryMethodId, orderDTO.ShoppingCartId, address);
+            var order = await _orderService.CreateOrderAsync(orderDTO.EmailAddress, orderDTO.DeliveryMethodId, orderDTO.ShoppingCartId, address);
 
             if (order == null) return BadRequest();
 
@@ -70,7 +72,7 @@ namespace API.Controllers
         public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
         {
             var deliveryMethods = await _orderService.GetDeliveryMethodsAsync();
-            
+
             return Ok(deliveryMethods);
         }
     }

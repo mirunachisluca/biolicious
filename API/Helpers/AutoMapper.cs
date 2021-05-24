@@ -18,7 +18,7 @@ namespace API.Helpers
                 .ForMember(d => d.ProductCategory, o => o.MapFrom(s => s.ProductCategory.Name))
                 .ForMember(d => d.ProductSubcategoryId, o => o.MapFrom(s => s.ProductSubcategory.Id))
                 .ForMember(d => d.ProductSubcategory, o => o.MapFrom(s => s.ProductSubcategory.Name))
-                .ForMember(d=>d.PictureUrl,o=>o.MapFrom<ProductUrlResolver>());
+                .ForMember(d => d.PictureUrl, o => o.MapFrom<ProductUrlResolver>());
 
             CreateMap<ProductBrand, ProductBrandDTO>();
 
@@ -32,14 +32,15 @@ namespace API.Helpers
             CreateMap<Recipe, RecipeDTO>()
                 .ForMember(d => d.RecipeCategory, o => o.MapFrom(s => s.RecipeCategory.Name))
                 .ForMember(d => d.Diet, o => o.MapFrom(s => s.Diet.Name))
-                .ForMember(d => d.RecipeSteps, o => o.MapFrom(s => s.RecipeSteps));
+                .ForMember(d => d.RecipeSteps, o => o.MapFrom(s => s.RecipeSteps))
+                .ForMember(d => d.PictureUrl, o => o.MapFrom<RecipeUrlResolver>());
 
             CreateMap<RecipeIngredient, RecipeIngredientDTO>()
                 .ForMember(d => d.ProductId, o => o.MapFrom(s => s.Product.Id))
                 .ForMember(d => d.ProductName, o => o.MapFrom(s => s.Product.Name))
                 .ForMember(d => d.ProductWeight, o => o.MapFrom(s => s.Product.Weight))
                 .ForMember(d => d.ProductPrice, o => o.MapFrom(s => s.Product.Price))
-                .ForMember(d => d.PictureUrl, o => o.MapFrom(s => s.Product.PictureUrl))
+                .ForMember(d => d.PictureUrl, o => o.MapFrom<RecipeIngredientUrlResolver>())
                 .ForMember(d => d.ProductBrand, o => o.MapFrom(s => s.Product.ProductBrand.Name))
                 .ForMember(d => d.ProductCategory, o => o.MapFrom(s => s.Product.ProductCategory.Name));
 
@@ -64,6 +65,11 @@ namespace API.Helpers
             CreateMap<Intake, IntakeDTO>();
 
             CreateMap<User, UserDetailsDTO>();
+
+            CreateMap<Product, ShoppingCartItem>()
+                .ForMember(d => d.Brand, o => o.MapFrom(s => s.ProductBrand.Name))
+                .ForMember(d => d.Category, o => o.MapFrom(s => s.ProductCategory.Name))
+                .ForMember(d => d.Subcategory, o => o.MapFrom(s => s.ProductSubcategory.Name));
         }
     }
 }

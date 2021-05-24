@@ -3,6 +3,7 @@ using Core.DTOs;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -60,6 +61,7 @@ namespace API.Controllers
             return Ok(products);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<ProductDTO>> Insert(Product product)
         {
@@ -70,6 +72,7 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetProduct), new { id = productToReturn.Id }, productToReturn);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -78,6 +81,7 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<ActionResult> Update(Product product)
         {
