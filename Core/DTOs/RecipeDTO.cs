@@ -12,8 +12,10 @@ namespace Core.DTOs
         public IEnumerable<RecipeIngredientDTO> Ingredients { get; set; }
         public string UrlName { get; set; }
         public int ServingSize { get; set; }
-        public IEnumerable<string> RecipeSteps { get; set; }
+        public IEnumerable<RecipeStepDTO> RecipeSteps { get; set; }
+        public int RecipeCategoryId { get; set; }
         public string RecipeCategory { get; set; }
+        public int DietId { get; set; }
         public string Diet { get; set; }
         public IntakeDTO Intake { get; set; }
     }

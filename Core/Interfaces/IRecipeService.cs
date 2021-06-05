@@ -14,6 +14,9 @@ namespace Core.Interfaces
         Task InsertAsync(Recipe recipe);
         Task DeleteAsync(int id);
         Task DeleteAsync(Recipe recipe);
+        Task DeleteIngredientAsync(int id);
+        Task DeleteStepAsync(int id);
         Task UpdateAsync(Recipe recipe);
+
     }
 }

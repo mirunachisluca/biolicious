@@ -54,8 +54,10 @@ namespace Infrastructure.Data
 
         public void Update(TEntity entity)
         {
-            _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
+            //_dbSet.Attach(entity);
+            //_context.Entry(entity).State = EntityState.Modified;
+
+            _context.Update(entity);
         }
 
         public async Task<TEntity> GetEntityWithSpec(ISpecification<TEntity> spec)

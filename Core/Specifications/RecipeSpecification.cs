@@ -15,10 +15,13 @@ namespace Core.Specifications
             AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}");
             AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductBrand)}");
             AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductCategory)}");
+            AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductSubcategory)}");
             AddInclude(r => r.RecipeSteps);
             AddInclude(r => r.RecipeCategory);
             AddInclude(r => r.Diet);
             AddInclude(r => r.Intake);
+            ApplyPaging(parameters.PageSize * (parameters.PageIndex - 1), parameters.PageSize);
+            AddOrderBy(r => r.Name);
         }
 
         public RecipeSpecification(int id) : base(r => r.Id == id)
@@ -27,6 +30,7 @@ namespace Core.Specifications
             AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}");
             AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductBrand)}");
             AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductCategory)}");
+            AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductSubcategory)}");
             AddInclude(r => r.RecipeSteps);
             AddInclude(r => r.RecipeCategory);
             AddInclude(r => r.Diet);
@@ -39,6 +43,7 @@ namespace Core.Specifications
             AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}");
             AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductBrand)}");
             AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductCategory)}");
+            AddInclude($"{nameof(Recipe.Ingredients)}.{nameof(RecipeIngredient.Product)}.{nameof(RecipeIngredient.Product.ProductSubcategory)}");
             AddInclude(r => r.RecipeSteps);
             AddInclude(r => r.RecipeCategory);
             AddInclude(r => r.Diet);

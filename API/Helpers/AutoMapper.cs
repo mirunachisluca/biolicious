@@ -42,9 +42,11 @@ namespace API.Helpers
                 .ForMember(d => d.ProductPrice, o => o.MapFrom(s => s.Product.Price))
                 .ForMember(d => d.PictureUrl, o => o.MapFrom<RecipeIngredientUrlResolver>())
                 .ForMember(d => d.ProductBrand, o => o.MapFrom(s => s.Product.ProductBrand.Name))
-                .ForMember(d => d.ProductCategory, o => o.MapFrom(s => s.Product.ProductCategory.Name));
+                .ForMember(d => d.ProductCategory, o => o.MapFrom(s => s.Product.ProductCategory.Name))
+                .ForMember(d => d.ProductSubcategory, o => o.MapFrom(s => s.Product.ProductSubcategory.Name));
 
-            //CreateMap<RecipeStep, RecipeStepDTO>();
+            CreateMap<RecipeStep, RecipeStepDTO>();
+
             CreateMap<RecipeCategory, RecipeCategoryDTO>();
 
             CreateMap<Diet, DietDTO>();

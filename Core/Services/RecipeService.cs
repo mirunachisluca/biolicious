@@ -4,10 +4,7 @@ using Core.Entities;
 using Core.Helpers;
 using Core.Interfaces;
 using Core.Specifications;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Services
@@ -77,10 +74,22 @@ namespace Core.Services
 
         public async Task UpdateAsync(Recipe recipe)
         {
+            recipe.UrlName = recipe.Name.ToLower().Replace(" ", "-");
             _unitOfWork.RecipeRepository.Update(recipe);
             await _unitOfWork.Save();
         }
 
+        public async Task DeleteIngredientAsync(int id)
+        {
+            await _unitOfWork.RecipeIngredientRepository.DeleteAsync(id);
+            await _unitOfWork.Save();
+        }
+
+        public async Task DeleteStepAsync(int id)
+        {
+            await _unitOfWork.RecipeStepRepository.DeleteAsync(id);
+            await _unitOfWork.Save();
+        }
 
     }
 }

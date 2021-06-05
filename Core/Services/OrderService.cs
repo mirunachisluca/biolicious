@@ -55,7 +55,7 @@ namespace Core.Services
 
             if (result <= 0) return null;
 
-            await _shoppingCartRepository.DeleteShoppingCartAsync(shoppingCartId);
+            //await _shoppingCartRepository.DeleteShoppingCartAsync(shoppingCartId);
 
             return order;
         }

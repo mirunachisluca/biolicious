@@ -50,14 +50,16 @@ namespace API.Controllers
                 return Ok(recipe);
         }
 
-        [HttpPut]
-        public async Task<ActionResult<ProductDTO>> Insert(Recipe recipe)
+        [HttpPost]
+        public async Task<ActionResult<RecipeDTO>> Insert(Recipe recipe)
         {
             await _recipeService.InsertAsync(recipe);
 
-            var recipeToReturn = _mapper.Map<RecipeDTO>(recipe);
+            var insertedRecipe = await _recipeService.GetByIdAsync(recipe.Id);
 
-            return CreatedAtAction(nameof(GetRecipe), new { id = recipe.Id }, recipeToReturn);
+            var recipeToReturn = _mapper.Map<RecipeDTO>(insertedRecipe);
+
+            return CreatedAtAction(nameof(GetRecipe), new { id = recipeToReturn.Id }, recipeToReturn);
         }
 
         [HttpDelete("{id}")]
@@ -68,7 +70,23 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [HttpPost]
+        [HttpDelete("steps/{id}")]
+        public async Task<ActionResult> DeleteStep(int id)
+        {
+            await _recipeService.DeleteStepAsync(id);
+
+            return NoContent();
+        }
+
+        [HttpDelete("ingredients/{id}")]
+        public async Task<ActionResult> DeleteIngredient(int id)
+        {
+            await _recipeService.DeleteIngredientAsync(id);
+
+            return NoContent();
+        }
+
+        [HttpPut]
         public async Task<ActionResult> Update(Recipe recipe)
         {
             await _recipeService.UpdateAsync(recipe);
