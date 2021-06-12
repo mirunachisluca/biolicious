@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities
 {
@@ -23,5 +20,8 @@ namespace Core.Entities
         public bool NewEntry { get; set; }
         public int Stock { get; set; }
         public string UrlName { get; set; }
+
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities
 {
@@ -18,6 +20,9 @@ namespace Core.Entities
         public int DietId { get; set; }
         public Intake Intake { get; set; }
         public int IntakeId { get; set; }
+
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
 
     }
 }

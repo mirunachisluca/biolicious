@@ -61,6 +61,8 @@ namespace Core.Services
         public async Task InsertAsync(Product product)
         {
             product.UrlName = await GetProductUrlName(product.ProductBrandId, product.Name, product.Weight);
+            if (product.ProductSubcategoryId == 0) product.ProductSubcategoryId = null;
+
             await _unitOfWork.ProductRepository.InsertAsync(product);
             await _unitOfWork.Save();
         }
@@ -80,6 +82,8 @@ namespace Core.Services
         public async Task UpdateAsync(Product product)
         {
             product.UrlName = await GetProductUrlName(product.ProductBrandId, product.Name, product.Weight);
+            if (product.ProductSubcategoryId == 0) product.ProductSubcategoryId = null;
+
             _unitOfWork.ProductRepository.Update(product);
             await _unitOfWork.Save();
         }
@@ -88,7 +92,7 @@ namespace Core.Services
         {
             var brand = await _unitOfWork.ProductBrandRepository.GetByIdAsync(brandId);
 
-            var brandName = brand.Name.ToLower().Replace(" ", "-").Replace(".","");
+            var brandName = brand.Name.ToLower().Replace(" ", "-").Replace(".", "");
             var productName = name.ToLower().Replace(" ", "-");
             weight = weight.ToLower().Replace(" ", "");
 

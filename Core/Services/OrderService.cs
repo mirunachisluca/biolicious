@@ -35,6 +35,10 @@ namespace Core.Services
             {
                 var product = await _unitOfWork.ProductRepository.GetByIdAsync(item.Id);
 
+                product.Stock -= item.Quantity;
+
+                 _unitOfWork.ProductRepository.Update(product);
+
                 var productItemOrdered = new ProductItemOrdered(product.Id, product.Name, product.PictureUrl);
 
                 var orderItem = new OrderItem(productItemOrdered, product.Price, item.Quantity, product.Discount);

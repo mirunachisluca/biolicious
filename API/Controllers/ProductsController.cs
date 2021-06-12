@@ -4,8 +4,13 @@ using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -16,11 +21,13 @@ namespace API.Controllers
     {
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ProductsController(IProductService productService, IMapper mapper)
+        public ProductsController(IProductService productService, IMapper mapper, IWebHostEnvironment hostEnvironment)
         {
             _productService = productService;
             _mapper = mapper;
+            _hostEnvironment = hostEnvironment;
         }
 
         [HttpGet]
@@ -63,8 +70,10 @@ namespace API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<ProductDTO>> Insert(Product product)
+        public async Task<ActionResult<ProductDTO>> Insert([FromForm] Product product)
         {
+            product.PictureUrl = await SaveImage(product.ImageFile);
+
             await _productService.InsertAsync(product);
 
             var productToReturn = _mapper.Map<ProductDTO>(product);
@@ -83,11 +92,32 @@ namespace API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut]
-        public async Task<ActionResult> Update(Product product)
+        public async Task<ActionResult> Update([FromForm] Product product)
         {
+            if (product.ImageFile != null)
+            {
+                product.PictureUrl = await SaveImage(product.ImageFile);
+            }
+
             await _productService.UpdateAsync(product);
 
             return NoContent();
+        }
+
+        private async Task<string> SaveImage(IFormFile image)
+        {
+            var pictureName = new string(Path.GetFileNameWithoutExtension(image.FileName).Take(15).ToArray()).Replace(" ", "-");
+
+            var pictureUrl = "images/products/" + pictureName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(image.FileName);
+
+            var picturePath = Path.Combine(_hostEnvironment.WebRootPath, pictureUrl);
+
+            using (var fileStream = new FileStream(picturePath, FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+            }
+
+            return pictureUrl;
         }
     }
 }
