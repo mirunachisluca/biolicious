@@ -1,12 +1,7 @@
 ﻿using Core.Entities;
 using Core.Entities.Order;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
@@ -22,7 +17,7 @@ namespace Infrastructure.Data
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             modelBuilder.Entity<Product>()
-                .HasOne(p=>p.ProductSubcategory)
+                .HasOne(p => p.ProductSubcategory)
                 .WithMany()
                 .HasForeignKey(p => p.ProductSubcategoryId)
                 .OnDelete(DeleteBehavior.Restrict);

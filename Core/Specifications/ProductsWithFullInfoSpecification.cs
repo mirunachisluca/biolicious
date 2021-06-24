@@ -1,9 +1,5 @@
 ﻿using Core.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Specifications
 {
@@ -48,7 +44,7 @@ namespace Core.Specifications
             AddInclude(p => p.ProductSubcategory);
         }
 
-        public ProductsWithFullInfoSpecification(string url) : base(p=>p.UrlName == url)
+        public ProductsWithFullInfoSpecification(string url) : base(p => p.UrlName == url)
         {
             AddInclude(p => p.ProductBrand);
             AddInclude(p => p.ProductCategory);

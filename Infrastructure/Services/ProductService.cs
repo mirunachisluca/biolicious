@@ -7,7 +7,7 @@ using Core.Entities;
 using Core.Specifications;
 using Core.Helpers;
 
-namespace Core.Services
+namespace Infrastructure.Services
 {
     public class ProductService : IProductService
     {

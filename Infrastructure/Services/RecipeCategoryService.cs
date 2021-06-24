@@ -5,7 +5,7 @@ using Core.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Core.Services
+namespace Infrastructure.Services
 {
     public class RecipeCategoryService : IRecipeCategoryService
     {

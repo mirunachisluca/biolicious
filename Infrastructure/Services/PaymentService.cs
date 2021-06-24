@@ -2,12 +2,11 @@
 using Core.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Stripe;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Core.Services
+namespace Infrastructure.Services
 {
     public class PaymentService : IPaymentService
     {

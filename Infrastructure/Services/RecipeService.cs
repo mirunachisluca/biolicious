@@ -7,7 +7,7 @@ using Core.Specifications;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Core.Services
+namespace Infrastructure.Services
 {
     public class RecipeService : IRecipeService
     {

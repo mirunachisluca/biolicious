@@ -1,9 +1,9 @@
 using Core.Entities.Identity;
 using Core.Interfaces;
-using Core.Services;
 using Infrastructure.DAL;
 using Infrastructure.Data;
 using Infrastructure.Identity;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

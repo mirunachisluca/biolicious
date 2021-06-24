@@ -10,6 +10,8 @@
 *.userosscache
 *.sln.docstates
 
+wwwroot/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
