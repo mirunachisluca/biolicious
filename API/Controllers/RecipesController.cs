@@ -98,7 +98,10 @@ namespace API.Controllers
         [HttpPut]
         public async Task<ActionResult> Update([FromForm] Recipe recipe)
         {
-            recipe.PictureUrl = await SaveImage(recipe.ImageFile);
+            if (recipe.ImageFile != null) 
+            { 
+                recipe.PictureUrl = await SaveImage(recipe.ImageFile); 
+            }
 
             await _recipeService.UpdateAsync(recipe);
 

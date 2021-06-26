@@ -110,7 +110,23 @@ namespace API.Controllers
         }
 
         [Authorize]
-        [HttpPut("updateAddress")]
+        [HttpPut]
+        public async Task<ActionResult<UserDetailsDTO>> UpdateUserDetails(UserDetailsDTO userDetails)
+        {
+            var user = await _userManager.FindUserByEmailFromClaimsAsync(HttpContext.User);
+
+            user.FirstName = userDetails.FirstName;
+            user.LastName = userDetails.LastName;
+            user.PhoneNumber = userDetails.PhoneNumber;
+            user.Email = userDetails.Email;
+
+            await _userManager.UpdateAsync(user);
+
+            return _mapper.Map<UserDetailsDTO>(user);
+        }
+
+        [Authorize]
+        [HttpPut("address")]
         public async Task<ActionResult<AddressDTO>> UpdateUserAddress(AddressDTO newAddress)
         {
             var user = await _userManager.FindUserByEmailFromClaimsWithAddressAsync(HttpContext.User);

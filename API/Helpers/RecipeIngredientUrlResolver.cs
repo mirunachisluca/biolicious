@@ -13,6 +13,7 @@ namespace API.Helpers
         {
             _config = config;
         }
+
         public string Resolve(RecipeIngredient source, RecipeIngredientDTO destination, string destMember, ResolutionContext context)
         {
             if (!string.IsNullOrEmpty(source.Product.PictureUrl))

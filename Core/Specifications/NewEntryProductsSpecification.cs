@@ -10,6 +10,8 @@ namespace Core.Specifications
             AddInclude(p => p.ProductCategory);
             AddInclude(p => p.ProductSubcategory);
             AddOrderBy(p => p.Name);
+            AddOrderByDesc(p => p.Id);
+            ApplyPaging(0, 10);
         }
     }
 }

@@ -94,7 +94,7 @@ namespace Infrastructure.Services
 
             var brandName = brand.Name.ToLower().Replace(" ", "-").Replace(".", "");
             var productName = name.ToLower().Replace(" ", "-");
-            weight = weight.ToLower().Replace(" ", "");
+            weight = weight.ToLower().Replace(" ", "-");
 
             return brandName + "-" + productName + "-" + weight;
         }

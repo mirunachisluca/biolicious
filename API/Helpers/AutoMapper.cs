@@ -40,6 +40,7 @@ namespace API.Helpers
                 .ForMember(d => d.ProductName, o => o.MapFrom(s => s.Product.Name))
                 .ForMember(d => d.ProductWeight, o => o.MapFrom(s => s.Product.Weight))
                 .ForMember(d => d.ProductPrice, o => o.MapFrom(s => s.Product.Price))
+                .ForMember(d => d.ProductStock, o => o.MapFrom(s => s.Product.Stock))
                 .ForMember(d => d.PictureUrl, o => o.MapFrom<RecipeIngredientUrlResolver>())
                 .ForMember(d => d.ProductBrand, o => o.MapFrom(s => s.Product.ProductBrand.Name))
                 .ForMember(d => d.ProductCategory, o => o.MapFrom(s => s.Product.ProductCategory.Name))
@@ -62,7 +63,7 @@ namespace API.Helpers
             CreateMap<OrderItem, OrderItemDTO>()
                 .ForMember(d => d.ProductItemId, o => o.MapFrom(s => s.ItemOrdered.ProductItemId))
                 .ForMember(d => d.Name, o => o.MapFrom(s => s.ItemOrdered.Name))
-                .ForMember(d => d.PictureUrl, o => o.MapFrom(s => s.ItemOrdered.PictureUrl));
+                .ForMember(d => d.PictureUrl, o => o.MapFrom<OrderItemUrlResolver>());
 
             CreateMap<Intake, IntakeDTO>();
 

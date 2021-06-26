@@ -60,7 +60,7 @@ namespace API.Controllers
                 return Ok(product);
         }
 
-        [HttpGet("newProducts")]
+        [HttpGet("new")]
         public async Task<ActionResult<IReadOnlyList<ProductDTO>>> GetNewProducts()
         {
             var products = await _productService.GetNewProductsAsync();
